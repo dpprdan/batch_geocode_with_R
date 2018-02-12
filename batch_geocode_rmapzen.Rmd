@@ -1,0 +1,131 @@
+---
+title: "Batch geocoding with rmapzen"
+date: '`r Sys.Date()`'
+author: Daniel Possenriede
+output: github_document
+---
+
+<!-- bath_geocode_rmapzen.md is generated from bath_geocode_rmapzen.Rmd Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  error = TRUE, # don't stop at errors
+  collapse = TRUE,
+  comment = "#>"
+)
+Sys.setenv(LANGUAGE = "en") # error messages in English
+```
+
+
+```{r lib_data}
+suppressPackageStartupMessages(library(here))
+suppressPackageStartupMessages(library(tidyverse))
+library(rmapzen)
+
+elphi <- "Elbphilharmonie, Hamburg"
+sherlock <- "Baker Street 221b, London"
+triumph <- "Arc de Triomphe de l’Etoile, Paris"
+
+places <- 
+  c(elphi, 
+    sherlock,
+    triumph)
+
+places_df <- data.frame(places, stringsAsFactors = FALSE)
+
+```
+
+
+`mz_search` is the general function for forward geocoding. It creates an `mapzen_geo_list` object (which has it's own `print` method).
+
+```{r}
+(mz_search_elphi <- mz_search(elphi))
+# saveRDS(mz_search_elphi, here("rmapzen/mz_search_elphi.rds"))
+
+```
+The results are relatively "raw", i.e. they have only been parsed by `jsonlite::fromJSON()`.
+
+`mz_geocode` is a dedicated function to geocode an address, utilizing the more general `mz_search` function. It returns a data.frame with a formated address, longitude, latitude and confidence.
+
+
+
+```{r}
+(mz_geocode_elphi <- mz_geocode(elphi))
+# saveRDS(mz_geocode_elphi, here("rmapzen/mz_geocode_elphi.rds"))
+
+```
+
+
+Both are not vectorized, so this gives an error.
+
+```{r}
+mz_geocode(places)
+
+```
+
+Utilizing `purrr::map_df`
+
+```{r}
+
+(mz_bind_places_df <- 
+  places_df[["places"]] %>% 
+  purrr::map_df(mz_geocode) %>% 
+  bind_cols(places_df, .))
+
+```
+
+Or `mutate` the result from a `map`ed `mz_geocode` into a list column 
+```{r}
+
+(mz_mutate_places_df <- 
+  places_df %>% 
+  mutate(codes = map(places, mz_geocode)) %>% 
+  unnest(codes))
+
+```
+
+## Problems
+
+### `NULL` results
+
+
+For example if one gets a `NULL` result
+
+
+```{r null_return}
+not_a_place <- "dpprdan"
+
+not_all_places <- c(not_a_place, places)
+
+not_all_places_df <- tibble(not_all_places)
+
+mz_na_places_df2 <- 
+  not_all_places_df %>% 
+  mutate(codes = map(places, mz_geocode)) %>% 
+  unnest(codes)
+
+```
+There probably is a way for `unnest` to deal with NULL lists, but I am not aware of it. 
+This does work with the first method. 
+
+### Encoding 
+
+Apparently not a problem
+
+```{r}
+palace <- "Дворцовая пл., Санкт-Петербург, Россия"
+
+mz_geocode(palace)
+
+```
+
+### Getting more information
+
+It is not really easy to extract additional information from mz_search result. Compare for example  `ggmap::geocode` output options, `c("latlon", "latlona", "more", "all")`, which returns dataframes with varying information (`"all"` returns a list, though). A option/function that outputs all `feature`s as a data.frame would suffice, though. But there is already an [issue](https://github.com/tarakc02/rmapzen/issues/12) for this.
+
+```{r}
+mz_search_elphi[["features"]][[1]]
+
+```
+
+
