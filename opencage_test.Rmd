@@ -1,0 +1,140 @@
+---
+title: "Some Tests of the Opencage Package"
+date: '`r Sys.Date()`'
+author: Daniel Possenriede (@dpprdan)
+output: github_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  error = TRUE, # don't stop at errors
+  collapse = TRUE,
+  comment = "#>"
+)
+Sys.setenv(LANGUAGE = "en") # error messages in English
+```
+
+
+```{r lib_data}
+# devtools::install_github("dpprdan/opencage@output_options")
+suppressPackageStartupMessages(library(tidyverse))
+library(opencage)
+
+elphi <- "Elbphilharmonie, Hamburg"
+sherlock <- "Baker Street 221b, London"
+triumph <- "Arc de Triomphe de l’Etoile, Paris"
+
+places <- 
+  c(elphi, 
+    sherlock,
+    triumph)
+
+places_df <- data.frame(places, stringsAsFactors = FALSE) %>% rowid_to_column()
+
+```
+
+# Single placename
+
+## return dataframe, multiple results
+
+```{r}
+oc_forward(triumph, output = "df_list") # df_list is default
+```
+
+## return list
+
+Output not shown, because output contains API key (in `$request$key`)
+
+```{r eval=FALSE, include=TRUE}
+oc_forward(triumph, output = "json_list")
+```
+
+## return JSON string
+
+E.g. for use with `jqr`, output not shown.
+
+```{r eval=FALSE, include=TRUE}
+oc_forward(triumph, output = "json_list") %>% 
+  jsonlite::toJSON()
+```
+
+# Multiple results with column binding
+
+## return dataframe, single result
+
+```{r}
+
+places_df %>% 
+  mutate(
+    oc = oc_forward(places, limit = 1, output = "df_list")) %>% 
+  tidyr::unnest(oc) %>% class()
+    
+```
+
+## return dataframe, multiple results, no_annotations
+
+```{r}
+
+places_df %>% 
+  mutate(
+    oc = oc_forward(places, output = "df_list", no_annotations = TRUE)) %>% 
+  tidyr::unnest(oc)
+    
+```
+
+
+## dataframe with R list column with parsed JSON
+
+output not shown
+
+```{r eval=FALSE, include=TRUE}
+
+places_df %>% 
+  mutate(
+    oc = oc_forward(places, limit = 1, output = "json_list"))
+    
+```
+
+## input character vector, output dataframe
+
+```{r}
+oc_forward(places, limit = 1, output = "df_list") %>% 
+  bind_rows()
+```
+
+
+# Source with problems
+
+Duplicates, empty placename, not a real placename (i.e. no result), NA placename.
+
+```{r}
+places2 <- 
+  c(elphi, 
+    sherlock,
+    triumph,
+    elphi,
+    "",
+    "dpprdan")
+
+places2_df <- 
+  data.frame(places2, stringsAsFactors = FALSE) %>%
+  rowid_to_column()
+
+```
+
+```{r}
+
+places2_df %>% 
+  mutate(
+    oc = oc_forward(places2, output = "df_list", no_annotations = TRUE)) %>% 
+  tidyr::unnest(oc)
+    
+```
+
+
+# Remaining Problems 
+
+- [ ] NA_character as placename (returns results for placename = "NA")
+- [ ] add query parameter (use placename directly from R, not via API roundtrip)
+- [ ] handle (HTTP) errors while querying: purrr::safely?
+
