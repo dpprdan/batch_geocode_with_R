@@ -361,6 +361,7 @@ places2_df %>%
 Remaining Problems
 ==================
 
--   \[ \] NA\_character as placename (returns results for placename = "NA")
--   \[ \] add query parameter (use placename directly from R, not via API roundtrip)
--   \[ \] handle (HTTP) errors while querying: purrr::safely?
+-   \[ \] countrycode per row not yet possible (need to change vectorisation in `oc_forward()` from `purrr::map` to `purrr::pmap`)
+-   \[ \] `NA_character` as placename (returns results for `placename = "NA"`)
+-   \[ \] `add_query` parameter (use placename directly from R, not via API roundtrip)
+-   \[ \] handle (HTTP) errors while querying: `purrr::safely`?!
