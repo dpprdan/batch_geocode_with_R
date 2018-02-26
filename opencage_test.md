@@ -255,3 +255,98 @@ Remaining Problems
 -   \[ \] `NA_character` as placename (returns results for `placename = "NA"`)
 -   \[ \] `add_query` parameter (use placename directly from R, not via API roundtrip)
 -   \[ \] handle (HTTP) errors while querying: `purrr::safely`?!
+
+<details><summary>Session info</summary>
+
+``` r
+devtools::session_info()
+#> Session info -------------------------------------------------------------
+#>  setting  value                       
+#>  version  R version 3.4.3 (2017-11-30)
+#>  system   x86_64, mingw32             
+#>  ui       RTerm                       
+#>  language en                          
+#>  collate  German_Germany.1252         
+#>  tz       Europe/Berlin               
+#>  date     2018-02-26
+#> Packages -----------------------------------------------------------------
+#>  package    * version    date       source                            
+#>  assertthat   0.2.0      2017-04-11 CRAN (R 3.4.2)                    
+#>  backports    1.1.2      2017-12-13 CRAN (R 3.4.3)                    
+#>  base       * 3.4.3      2017-12-06 local                             
+#>  bindr        0.1        2016-11-13 CRAN (R 3.4.0)                    
+#>  bindrcpp   * 0.2        2017-06-17 CRAN (R 3.4.0)                    
+#>  broom        0.4.3      2017-11-20 CRAN (R 3.4.2)                    
+#>  cellranger   1.1.0      2016-07-27 CRAN (R 3.4.2)                    
+#>  cli          1.0.0      2017-11-05 CRAN (R 3.4.2)                    
+#>  colorspace   1.3-2      2016-12-14 CRAN (R 3.4.2)                    
+#>  compiler     3.4.3      2017-12-06 local                             
+#>  crayon       1.3.4      2018-02-12 Github (r-lib/crayon@95b3eae)     
+#>  crul         0.5.2      2018-02-24 CRAN (R 3.4.3)                    
+#>  curl         3.1        2017-12-12 CRAN (R 3.4.3)                    
+#>  datasets   * 3.4.3      2017-12-06 local                             
+#>  devtools     1.13.5     2018-02-18 CRAN (R 3.4.3)                    
+#>  digest       0.6.15     2018-01-28 CRAN (R 3.4.3)                    
+#>  dplyr      * 0.7.4      2017-09-28 CRAN (R 3.4.2)                    
+#>  evaluate     0.10.1     2017-06-24 CRAN (R 3.4.0)                    
+#>  forcats    * 0.3.0      2018-02-19 CRAN (R 3.4.3)                    
+#>  foreign      0.8-69     2017-06-21 CRAN (R 3.4.0)                    
+#>  ggplot2    * 2.2.1.9000 2017-09-07 Github (tidyverse/ggplot2@c592e32)
+#>  glue         1.2.0.9000 2018-02-09 local                             
+#>  graphics   * 3.4.3      2017-12-06 local                             
+#>  grDevices  * 3.4.3      2017-12-06 local                             
+#>  grid         3.4.3      2017-12-06 local                             
+#>  gtable       0.2.0      2016-02-26 CRAN (R 3.4.2)                    
+#>  haven        1.1.1      2018-01-18 CRAN (R 3.4.3)                    
+#>  hms          0.4.1      2018-01-24 CRAN (R 3.4.3)                    
+#>  htmltools    0.3.6      2017-04-28 CRAN (R 3.4.0)                    
+#>  httr         1.3.1      2017-08-20 CRAN (R 3.4.1)                    
+#>  jsonlite     1.5        2017-06-01 CRAN (R 3.4.0)                    
+#>  knitr        1.20       2018-02-20 CRAN (R 3.4.3)                    
+#>  lattice      0.20-35    2017-03-25 CRAN (R 3.4.2)                    
+#>  lazyeval     0.2.1      2017-10-29 CRAN (R 3.4.2)                    
+#>  lubridate    1.7.2      2018-02-06 CRAN (R 3.4.3)                    
+#>  magrittr     1.5        2014-11-22 CRAN (R 3.4.2)                    
+#>  memoise      1.1.0      2018-01-08 Github (hadley/memoise@611cfad)   
+#>  methods    * 3.4.3      2017-12-06 local                             
+#>  mnormt       1.5-5      2016-10-15 CRAN (R 3.4.1)                    
+#>  modelr       0.1.1      2017-07-24 CRAN (R 3.4.1)                    
+#>  munsell      0.4.3      2016-02-13 CRAN (R 3.4.2)                    
+#>  nlme         3.1-131.1  2018-02-16 CRAN (R 3.4.3)                    
+#>  opencage   * 0.1.4.9001 2018-02-26 local                             
+#>  pacman     * 0.4.6      2017-05-14 CRAN (R 3.4.0)                    
+#>  parallel     3.4.3      2017-12-06 local                             
+#>  pillar       1.2.0      2018-02-26 CRAN (R 3.4.3)                    
+#>  pkgconfig    2.0.1      2017-03-21 CRAN (R 3.4.0)                    
+#>  plyr         1.8.4      2016-06-08 CRAN (R 3.4.2)                    
+#>  psych        1.7.8      2017-09-09 CRAN (R 3.4.1)                    
+#>  purrr      * 0.2.4      2017-10-18 CRAN (R 3.4.2)                    
+#>  R6           2.2.2      2017-06-17 CRAN (R 3.4.0)                    
+#>  Rcpp         0.12.15    2018-01-20 CRAN (R 3.4.3)                    
+#>  readr      * 1.2.0      2018-01-17 Github (tidyverse/readr@377c9ce)  
+#>  readxl       1.0.0      2017-04-18 CRAN (R 3.4.2)                    
+#>  reshape2     1.4.3      2017-12-11 CRAN (R 3.4.2)                    
+#>  rlang        0.2.0      2018-02-20 CRAN (R 3.4.3)                    
+#>  rmarkdown    1.8        2017-11-17 CRAN (R 3.4.2)                    
+#>  rprojroot    1.3-2      2018-01-03 CRAN (R 3.4.3)                    
+#>  rstudioapi   0.7        2017-09-07 CRAN (R 3.4.1)                    
+#>  rvest        0.3.2      2016-06-17 CRAN (R 3.4.2)                    
+#>  scales       0.5.0.9000 2017-09-07 Github (hadley/scales@d767915)    
+#>  stats      * 3.4.3      2017-12-06 local                             
+#>  stringi      1.1.6      2017-11-17 CRAN (R 3.4.2)                    
+#>  stringr    * 1.3.0      2018-02-19 CRAN (R 3.4.3)                    
+#>  tibble     * 1.4.2      2018-01-22 CRAN (R 3.4.3)                    
+#>  tidyr      * 0.8.0      2018-01-29 CRAN (R 3.4.3)                    
+#>  tidyselect   0.2.3      2017-11-06 CRAN (R 3.4.2)                    
+#>  tidyverse  * 1.2.1      2017-11-14 CRAN (R 3.4.2)                    
+#>  tools        3.4.3      2017-12-06 local                             
+#>  triebeard    0.3.0      2016-08-04 CRAN (R 3.4.0)                    
+#>  urltools     1.7.0      2018-01-20 CRAN (R 3.4.3)                    
+#>  utf8         1.1.3      2018-01-03 CRAN (R 3.4.3)                    
+#>  utils      * 3.4.3      2017-12-06 local                             
+#>  withr        2.1.1      2017-12-19 CRAN (R 3.4.3)                    
+#>  xml2         1.2.0      2018-01-24 CRAN (R 3.4.3)                    
+#>  yaml         2.1.16     2017-12-12 CRAN (R 3.4.3)
+```
+
+</details>
