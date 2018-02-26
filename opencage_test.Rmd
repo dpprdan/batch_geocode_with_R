@@ -29,7 +29,7 @@ places <-
     sherlock,
     triumph)
 
-places_df <- data.frame(places, stringsAsFactors = FALSE) %>% rowid_to_column()
+places_df <- tibble(places) %>% rowid_to_column()
 
 ```
 
@@ -66,8 +66,9 @@ oc_forward(triumph, output = "json_list") %>%
 
 places_df %>% 
   mutate(
-    oc = oc_forward(places, limit = 1, output = "df_list")) %>% 
-  tidyr::unnest(oc) %>% class()
+    oc = oc_forward(places, limit = 1, output = "df_list")
+  ) %>% 
+  tidyr::unnest(oc)
     
 ```
 
@@ -117,7 +118,7 @@ places2 <-
     "dpprdan")
 
 places2_df <- 
-  data.frame(places2, stringsAsFactors = FALSE) %>%
+  tibble(places2, stringsAsFactors = FALSE) %>%
   rowid_to_column()
 
 ```
